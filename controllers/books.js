@@ -5,7 +5,8 @@ export const getAllbooks = async (req, res) => {
     const result = await pool.query('SELECT * FROM books');
     res.json(result.rows);
   } catch (error) {
-    res.status(500).json({ message: 'something broke' });
+    res.status(500).json({ message: err.message });
+    console.log(error);
   }
 };
 
@@ -15,8 +16,9 @@ export const getBookById = async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM books WHERE id = $1', [id]);
     res.json(result.rows[0]);
-  } catch (error) {
-    res.status(500).json({ message: 'something broke' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log(err);
   }
 };
 
@@ -29,8 +31,9 @@ export const addNewBook = async (req, res) => {
       [name, author, image_url]
     );
     res.status(201).json(result.rows[0]);
-  } catch (error) {
-    res.status(500).json({ message: 'something broke' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log(err);
   }
 };
 
@@ -45,7 +48,7 @@ export const updateBook = async (req, res) => {
     );
     res.json(result.rows[0]);
   } catch (err) {
-    res.status(500).json({ message: 'something broke' });
+    res.status(500).json({ message: err.message });
     console.log(err);
   }
 };
@@ -57,7 +60,7 @@ export const deleteBook = async (req, res) => {
     await pool.query('DELETE FROM books WHERE ID = $1', [id]);
     res.status(200).json({ message: 'book deleted' });
   } catch (err) {
-    res.status(500).json({ message: 'something broke' });
+    res.status(500).json({ message: err.message });
     console.log(err);
   }
 };
